@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/backend/">
+    <Project Path="src/backend/MediaManager.Api/MediaManager.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/database/">
+    <Project Path="src/database/MediaManager.Database/MediaManager.Database.csproj" />
+  </Folder>
+  <Folder Name="/src/frontend/" />
+  <Folder Name="/src/frontend/mobile/">
+    <Project Path="src/frontend/mobile/MediaManager.Mobile.Android/MediaManager.Mobile.Android.csproj" />
+    <Project Path="src/frontend/mobile/MediaManager.Mobile.iPhone/MediaManager.Mobile.iPhone.csproj" />
+  </Folder>
+</Solution>

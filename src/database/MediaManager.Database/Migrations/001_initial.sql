@@ -1,1 +1,3 @@
-CREATE TABLE IF NOT EXISTS media.MediaItem (Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, Title NVARCHAR(200) NOT NULL, CreatedAtUtc DATETIME2 NOT NULL);
+-- Migration 001: create the media schema
+IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'media')
+    EXEC('CREATE SCHEMA media');

@@ -1,0 +1,82 @@
+<section class="card">
+  <h2>MediaType CRUD</h2>
+
+  @if (isLoading()) {
+    <div class="loading">Loading media types...</div>
+  }
+
+  <form class="editor" (ngSubmit)="submit()" [attr.aria-label]="'Media type form'">
+    <label for="mediaTypeName">Media type name</label>
+    <div class="editor-row">
+      <input
+        id="mediaTypeName"
+        name="mediaTypeName"
+        type="text"
+        maxlength="50"
+        [ngModel]="formName()"
+        (ngModelChange)="formName.set($event)"
+        placeholder="e.g. LASERDISC"
+        [disabled]="isSubmitting()"
+        aria-describedby="typeErrorMsg"
+        required
+      />
+      <button type="submit" [disabled]="isSubmitting()" [attr.aria-busy]="isSubmitting()">
+        {{ isSubmitting() ? 'Working...' : (editingId() === null ? 'Add' : 'Save') }}
+      </button>
+      @if (editingId() !== null) {
+        <button class="secondary" type="button" (click)="cancelEdit()" [disabled]="isSubmitting()">
+          Cancel
+        </button>
+      }
+    </div>
+  </form>
+
+  @if (errorMessage()) {
+    <p class="error" id="typeErrorMsg" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="list-wrap">
+    <table role="grid" [attr.aria-label]="'Media types list'">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of mediaTypes(); track item.id) {
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td class="actions">
+              <button
+                type="button"
+                class="secondary"
+                (click)="startEdit(item)"
+                [disabled]="isSubmitting()"
+                [attr.aria-label]="'Edit ' + item.name"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="danger"
+                (click)="remove(item)"
+                [disabled]="isSubmitting()"
+                [attr.aria-label]="'Delete ' + item.name"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+        @if (mediaTypes().length === 0) {
+          <tr>
+            <td colspan="3" class="empty">No media types found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

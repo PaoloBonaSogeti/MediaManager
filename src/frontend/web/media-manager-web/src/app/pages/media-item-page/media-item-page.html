@@ -1,0 +1,118 @@
+<section class="card">
+  <h2>MediaItem CRUD</h2>
+
+  @if (isLoadingItems() || isLoadingTypes()) {
+    <div class="loading">Loading media items...</div>
+  }
+
+  <form class="editor" (ngSubmit)="submit()" [attr.aria-label]="'Media item form'">
+    <label for="mediaItemTitle">Title</label>
+    <div class="editor-row">
+      <input
+        id="mediaItemTitle"
+        name="mediaItemTitle"
+        type="text"
+        maxlength="200"
+        [ngModel]="formTitle()"
+        (ngModelChange)="formTitle.set($event)"
+        placeholder="Movie title"
+        [disabled]="isSubmitting()"
+        aria-describedby="itemErrorMsg"
+        required
+      />
+    </div>
+
+    <label for="mediaItemBarcode">Barcode</label>
+    <div class="editor-row">
+      <input
+        id="mediaItemBarcode"
+        name="mediaItemBarcode"
+        type="text"
+        maxlength="100"
+        [ngModel]="formBarcode()"
+        (ngModelChange)="formBarcode.set($event)"
+        placeholder="EAN/UPC"
+        [disabled]="isSubmitting()"
+        aria-describedby="itemErrorMsg"
+        required
+      />
+    </div>
+
+    <label for="mediaItemType">Media type</label>
+    <div class="editor-row">
+      <select
+        id="mediaItemType"
+        name="mediaItemType"
+        [ngModel]="formMediaTypeId()"
+        (ngModelChange)="formMediaTypeId.set($event)"
+        [disabled]="isSubmitting()"
+        aria-describedby="itemErrorMsg"
+        required
+      >
+        <option [ngValue]="0">Select media type</option>
+        @for (mediaType of mediaTypes(); track mediaType.id) {
+          <option [ngValue]="mediaType.id">{{ mediaType.name }}</option>
+        }
+      </select>
+      <button type="submit" [disabled]="isSubmitting()" [attr.aria-busy]="isSubmitting()">
+        {{ isSubmitting() ? 'Working...' : (editingId() === null ? 'Add' : 'Save') }}
+      </button>
+      @if (editingId() !== null) {
+        <button class="secondary" type="button" (click)="cancelEdit()" [disabled]="isSubmitting()">
+          Cancel
+        </button>
+      }
+    </div>
+  </form>
+
+  @if (errorMessage()) {
+    <p class="error" id="itemErrorMsg" role="alert">{{ errorMessage() }}</p>
+  }
+
+  <div class="list-wrap">
+    <table role="grid" [attr.aria-label]="'Media items list'">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Barcode</th>
+          <th scope="col">MediaType</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of mediaItems(); track item.id) {
+          <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.barcode }}</td>
+            <td>{{ item.mediaType?.name || item.mediaTypeId }}</td>
+            <td class="actions">
+              <button
+                type="button"
+                class="secondary"
+                (click)="startEdit(item)"
+                [disabled]="isSubmitting()"
+                [attr.aria-label]="'Edit ' + item.title"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="danger"
+                (click)="remove(item)"
+                [disabled]="isSubmitting()"
+                [attr.aria-label]="'Delete ' + item.title"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+        @if (mediaItems().length === 0) {
+          <tr>
+            <td colspan="4" class="empty">No media items found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

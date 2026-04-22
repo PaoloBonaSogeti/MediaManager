@@ -9,6 +9,48 @@ Implement barcode/EAN metadata lookup through Allmusicz with a source abstractio
 - Persist external metadata separately from user-owned records.
 - Expose catalog lookup API for barcode-based discovery.
 
+## User Stories
+
+### US2.1 - Barcode Lookup
+As an authenticated user, I want to search by barcode or EAN so that I can quickly find catalog metadata for the media I own.
+
+#### Acceptance Criteria
+- The API accepts a supported barcode or EAN input and normalizes it before lookup.
+- A successful lookup returns mapped metadata and source attribution.
+- A not-found lookup returns a controlled response without creating user library data.
+
+### US2.2 - Resilient Provider Integration
+As a platform operator, I want external catalog lookups to fail gracefully so that provider instability does not take down the API.
+
+#### Acceptance Criteria
+- Provider calls respect configured timeout and retry rules.
+- Provider failures return controlled API errors rather than unhandled exceptions.
+- Lookup logs capture enough detail to diagnose provider failures.
+
+### US2.3 - Traceable External Catalog Storage
+As a product team member, I want externally sourced metadata stored separately from user-owned data so that source records remain auditable and reusable.
+
+#### Acceptance Criteria
+- External catalog records persist independently of user library tables.
+- Stored records include source name, external identifier, and retrieval timestamp.
+- Duplicate external records are prevented for the same source and external id.
+
+### US2.4 - Extensible Source Layer
+As a developer, I want a provider abstraction for metadata sources so that additional catalog providers can be added without redesigning the API.
+
+#### Acceptance Criteria
+- A shared provider interface defines the lookup contract.
+- Provider selection is handled through a registry or factory rather than hard-coded controller logic.
+- Adding a new provider requires a new implementation and configuration, not API redesign.
+
+### US2.5 - Lookup Validation and Observability
+As a support engineer, I want lookup requests validated and traced so that bad input and production issues are easy to diagnose.
+
+#### Acceptance Criteria
+- Invalid barcode formats are rejected with explicit validation feedback.
+- Lookup requests and failures include correlation-friendly logging.
+- Tests cover successful, failed, and invalid lookup scenarios.
+
 ## Concrete Tasks
 
 ### 1. Provider Abstraction

@@ -9,6 +9,48 @@ Deliver the end-to-end user flow for adding owned media by barcode or manual inp
 - Add web UI for profile, lookup, add/edit media, and list owned items.
 - Enforce per-user ownership in all library operations.
 
+## User Stories
+
+### US3.1 - Add Media from Catalog Lookup
+As an authenticated user, I want to add an owned media item from lookup results so that I can build my library quickly from barcode data.
+
+#### Acceptance Criteria
+- A user can create a library item from a catalog lookup result.
+- The created item links to the external catalog record without copying ownership into the catalog tables.
+- The new item appears in the user's personal library list after creation.
+
+### US3.2 - Add Media Manually
+As an authenticated user, I want to add media manually when lookup fails or the item is missing so that my library does not depend on an external source.
+
+#### Acceptance Criteria
+- A user can create a media item without an external catalog link.
+- Required manual fields are validated before the item is saved.
+- Manual-only items are returned and managed through the same library endpoints as lookup-assisted items.
+
+### US3.3 - Override Catalog Metadata
+As an authenticated user, I want to override title, artist, or media type on my copy of an item so that my library reflects how I organize my collection.
+
+#### Acceptance Criteria
+- User overrides are stored separately from source metadata.
+- API responses expose the effective display values using override-first precedence.
+- Provenance between user-entered and source-provided values is available to the UI.
+
+### US3.4 - Manage My Personal Library
+As an authenticated user, I want to view, update, and delete my owned items so that I can maintain an accurate personal collection.
+
+#### Acceptance Criteria
+- A user can list only their items and retrieve item details.
+- A user can update and delete only their own items.
+- The web UI supports add, view, edit, and delete flows with validation and clear errors.
+
+### US3.5 - Ownership Isolation
+As a system owner, I want strict user-level data isolation so that one user can never access another user's library records.
+
+#### Acceptance Criteria
+- All library queries and commands are scoped to the authenticated user.
+- Cross-user access attempts are rejected and covered by negative tests.
+- No library endpoint leaks another user's data in success or error responses.
+
 ## Concrete Tasks
 
 ### 1. User Library Domain

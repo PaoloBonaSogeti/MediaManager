@@ -83,6 +83,12 @@ Build a multi-user media management platform where users can authenticate, creat
 - Sprint 3: User library flow, UI wiring, and ownership constraints.
 - Sprint 4: Quality hardening, mobile readiness, and source extensibility.
 
+## User Story Map
+- Sprint 1 user stories: authentication, profile management, protected access, and web auth foundation.
+- Sprint 2 user stories: barcode lookup, provider resilience, external catalog persistence, and observability.
+- Sprint 3 user stories: add media flows, override handling, personal library management, and ownership isolation.
+- Sprint 4 user stories: production hardening, mobile-ready contracts, multi-source extensibility, and review scaffolding.
+
 ## Sprint Documents
 - SPRINT_1_FOUNDATION.md
 - SPRINT_2_CATALOG_INTEGRATION.md

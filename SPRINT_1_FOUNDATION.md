@@ -9,6 +9,48 @@ Establish a production-ready backend foundation with persistent storage, authent
 - Add profile management endpoints.
 - Protect API routes requiring authenticated access.
 
+## User Stories
+
+### US1.1 - User Registration and Sign-In
+As a new user, I want to register and sign in securely so that I can access my personal media library.
+
+#### Acceptance Criteria
+- A user can register with a unique email address and valid password.
+- A registered user can sign in and receive a valid access token and refresh token.
+- Invalid credentials or duplicate registration attempts return clear validation errors.
+
+### US1.2 - Profile Management
+As an authenticated user, I want to create and update my profile so that my account has the personal details required by the application.
+
+#### Acceptance Criteria
+- An authenticated user can retrieve their current profile.
+- An authenticated user can create or update profile fields through the API.
+- Profile changes are stored persistently and returned on the next read.
+
+### US1.3 - Protected Access and Ownership Context
+As an authenticated user, I want protected endpoints to recognize my identity so that only my data can be accessed in later library features.
+
+#### Acceptance Criteria
+- Protected endpoints reject unauthenticated requests with the correct authorization response.
+- Authenticated requests include a resolvable user identity or ownership claim in the backend.
+- The security configuration supports role expansion without breaking current user flows.
+
+### US1.4 - Persistent Application Baseline
+As a product team member, I want authentication and profile data stored in a persistent database so that the solution behaves consistently across restarts and environments.
+
+#### Acceptance Criteria
+- The application starts with environment-based database configuration and no code changes.
+- Identity and profile tables are created through migration scripts.
+- User and profile data remain available after application restart.
+
+### US1.5 - Web Authentication Foundation
+As a web user, I want the Angular app to manage sign-in state so that I can navigate protected pages without manually handling tokens.
+
+#### Acceptance Criteria
+- The web app provides login and registration flows backed by the API.
+- Access tokens are attached automatically to protected API requests.
+- Protected routes redirect unauthenticated users away from restricted pages.
+
 ## Concrete Tasks
 
 ### 1. Database and Schema
